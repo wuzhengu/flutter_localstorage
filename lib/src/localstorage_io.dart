@@ -10,7 +10,12 @@ import './interface.dart';
 const kStorageFileName = 'storage-61f76cb0-842b-4318-a644-e245f50a0b5a.json';
 
 Future<LocalStorage> init() async {
-  final dir = await getApplicationDocumentsDirectory();
+  final Directory dir;
+  if (Platform.isWindows) {
+    dir = await getApplicationCacheDirectory();
+  } else {
+    dir = await getApplicationDocumentsDirectory();
+  }
   final storagePath = p.join(dir.path, kStorageFileName);
 
   final storageFile = File(storagePath);
